@@ -1,2 +1,2 @@
-# quick
-Golang with QtQuick
+# GoQuick
+Golang with QtQuick.
