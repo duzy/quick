@@ -66,13 +66,16 @@ type QmlApplicationEngine struct {
 
 func (qae *QmlApplicationEngine) Load(source interface{}) error {
         s := fmt.Sprintf("%v", source)
-        cs := C.CString(s); defer C.free(unsafe.Pointer(cs))
         // FIXME: better classification method.
         if strings.Contains(s, ":/") {
+                s = strings.Replace(s, ":/", "qrc:///", 1)
+                cs := C.CString(s); defer C.free(unsafe.Pointer(cs))
                 C.QmlApplicationEngineLoadUrl(qae.void, cs);
         } else if !strings.Contains(s, "\n") {
+                cs := C.CString(s); defer C.free(unsafe.Pointer(cs))
                 C.QmlApplicationEngineLoadFile(qae.void, cs);
         } else {
+                cs := C.CString(s); defer C.free(unsafe.Pointer(cs))
                 C.QmlApplicationEngineLoadData(qae.void, cs);
         }
         return nil
